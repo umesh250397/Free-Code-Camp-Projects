@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Random Quote Machine</title>
+	<meta charset="utf-8">
+</head>
+<style type="text/css">
+	li{
+	  display : inline-block;
+	  padding : 10px;
+	}
+	a{
+	  color : grey;
+	}
+	.main{
+	  margin : auto;
+	}
+	body{
+	  background : black;
+	  font-family: 'Bungee', cursive;
+	}
+	.navbar{
+	  background-color: silver;
+	}
+</style>
+<body>
+	<div class="container-fluid main">
+	  <div class=" navbar navabr-inverse navbar-toggleable-sm fixed-top">
+	    <span class = "navbar-brand">RanDom QuotE MAcHine</span>
+	    <div class="col-md-6 col-md-offset-3">
+	      <ul class = "navbar-nav">
+	        <li class = "nav-item active"><a class = "nav-link" href="#" target = "_blank">Home</a></li>
+	        <li class = "nav-item"><a class = "nav-link" href="#" target = "_blank">Contact Us</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <hr>
+	  <div class="row">
+	    <div class="col-md-4 col-md-offset-4 well" id = "qouteSection">
+	      Click here for a New Quote
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class = "row text-center">
+	      <div class = "col-xs-12">
+	        <a id = "tweet"><button class = "btn btn-primary">
+	          tweet
+	        </button></a>
+	        <button id = "getQoute" class = "btn btn-primary">
+	          New Quote
+	        </button>        
+	      </div>
+	    </div>
+	  </div>
+	</div>		
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){  
+	  $("#getQoute").on('click',function(){	    
+	    $.ajax({	      
+	      headers: {
+	        "X-Mashape-Key": "kgTZgq7N5zmshX8JHfIoXEaaQFKwp1US0vHjsnekNvZw3mVudD",
+	        Accept: "application/json",
+	        "Content-Type": "application/x-www-form-urlencoded"
+	      },	      
+	      url: 'https://andruxnet-random-famous-quotes.p.mashape.com/cat=',	      
+	      success: function(r){
+	                  if (typeof r === 'string') {
+	                  r = JSON.parse(r); 
+	                  }
+	                  var html = r.quote + "<br> -" + r.author;
+	                  $('#qouteSection').html(html);  
+	                  var twitter = r.quote + " :  By - " + r.author;
+	                  $('#tweet').attr('href','https://twitter.com/intent/tweet?hashtags=quotes&text='+ twitter);
+	                  $('#tweet').attr('target','_blank');
+	               }        
+	    });
+	  });
+	});  
+</script>
+</html>
