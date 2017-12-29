@@ -39,48 +39,66 @@
 	  </div>
 	  <hr>
 	  <div class="row">
-	    <div class="col-md-4 col-md-offset-4 well" id = "qouteSection">
-	      Click here for a New Quote
-	    </div>
-	  </div>
-	  <div class="row">
-	    <div class = "row text-center">
-	      <div class = "col-xs-12">
-	        <a id = "tweet"><button class = "btn btn-primary">
-	          tweet
-	        </button></a>
+	    <div class="col-md-4 col-md-offset-4 well" >
+	      <div class="row text-center" id = "qouteSection">
+	        Click button for a New Quote
+	      </div>
+	      <hr>
+	      <div class="row">
+	        <a id = "tweet" class = "button">
+	          <i class="fa fa-twitter"></i>
+	        </a>
 	        <button id = "getQoute" class = "btn btn-primary">
 	          New Quote
 	        </button>        
 	      </div>
 	    </div>
 	  </div>
-	</div>		
+	</div>
 </body>
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){  
-	  $("#getQoute").on('click',function(){	    
-	    $.ajax({	      
-	      headers: {
-	        "X-Mashape-Key": "kgTZgq7N5zmshX8JHfIoXEaaQFKwp1US0vHjsnekNvZw3mVudD",
-	        Accept: "application/json",
-	        "Content-Type": "application/x-www-form-urlencoded"
-	      },	      
-	      url: 'https://andruxnet-random-famous-quotes.p.mashape.com/cat=',	      
-	      success: function(r){
-	                  if (typeof r === 'string') {
-	                  r = JSON.parse(r); 
-	                  }
-	                  var html = r.quote + "<br> -" + r.author;
-	                  $('#qouteSection').html(html);  
-	                  var twitter = r.quote + " :  By - " + r.author;
-	                  $('#tweet').attr('href','https://twitter.com/intent/tweet?hashtags=quotes&text='+ twitter);
-	                  $('#tweet').attr('target','_blank');
-	               }        
-	    });
-	  });
-	});  
+$(document).ready(function(){  
+    $.ajax({      
+      headers: {
+        "X-Mashape-Key": "kgTZgq7N5zmshX8JHfIoXEaaQFKwp1US0vHjsnekNvZw3mVudD",
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },      
+      url: 'https://andruxnet-random-famous-quotes.p.mashape.com/cat=',
+      success: function(r){
+                  if (typeof r === 'string') {
+                  r = JSON.parse(r); 
+                  }
+                  var html = '<i class="fa fa-quote-left"> </i>  ' + r.quote + '   <i class="fa fa-quote-right"> </i>' + "<br> -" + r.author;
+                  $('#qouteSection').html(html);  
+                  var twitter = r.quote + " :  By - " + r.author;
+                  $('#tweet').attr('href','https://twitter.com/intent/tweet?hashtags=quotes&text='+ twitter);
+                  $('#tweet').attr('target','_blank');
+               }        
+    });    
+  
+  $("#getQoute").on('click',function(){    
+      $.ajax({      
+      headers: {
+        "X-Mashape-Key": "kgTZgq7N5zmshX8JHfIoXEaaQFKwp1US0vHjsnekNvZw3mVudD",
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },      
+      url: 'https://andruxnet-random-famous-quotes.p.mashape.com/cat=',
+      success: function(r){
+                  if (typeof r === 'string') {
+                  r = JSON.parse(r); 
+                  }
+                  var html = '<i class="fa fa-quote-left"> </i>  ' + r.quote + '   <i class="fa fa-quote-right"> </i>' + "<br> -" + r.author;
+                  $('#qouteSection').html(html);  
+                  var twitter = r.quote + " :  By - " + r.author;
+                  $('#tweet').attr('href','https://twitter.com/intent/tweet?hashtags=quotes&text='+ twitter);
+                  $('#tweet').attr('target','_blank');
+               }        
+    });    
+  });
+});  
 </script>
 </html>
