@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Weather</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+<body>
+	<div class="row">
+	  <div class="col-md-4 col-md-offset-4 text-center">
+	    Weather
+	  </div>  
+	</div>
+	<div class="row new"></div>
+
+</body>
+<script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	 if(navigator.geolocation){
+	    navigator.geolocation.getCurrentPosition(function(position){
+	      $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(json){
+	        var html = json.weather[0].description + "<br>";
+	        html += '<img src="' + json.weather[0].icon + '"> <br>';
+	        html += json.main.temp + "<br>";
+	        html += json.main.pressure + "<br>";
+	        html += json.main.humidity + "<br>";  
+	        html += json.wind.speed;
+	        $(".new").html(JSON.stringify(json));
+	      });
+	    });
+	 }
+</script>
+</html>
