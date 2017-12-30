@@ -26,7 +26,7 @@
 	  background-color: silver;
 	}
 </style>
-<body>
+<body id = "body">
 	<div class="container-fluid main">
 	  <div class=" navbar navabr-inverse navbar-toggleable-sm fixed-top">
 	    <span class = "navbar-brand">RanDom QuotE MAcHine</span>
@@ -60,6 +60,7 @@
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){  
+    var colors = ['#16a085', '#27ae60', '#2c3e50', '#f39c12', '#e74c3c', '#9b59b6', '#FB6964', '#342224', "#472E32", "#BDBB99", "#77B1A9", "#73A857"];
     $.ajax({      
       headers: {
         "X-Mashape-Key": "kgTZgq7N5zmshX8JHfIoXEaaQFKwp1US0vHjsnekNvZw3mVudD",
@@ -76,6 +77,11 @@ $(document).ready(function(){
                   var twitter = r.quote + " :  By - " + r.author;
                   $('#tweet').attr('href','https://twitter.com/intent/tweet?hashtags=quotes&text='+ twitter);
                   $('#tweet').attr('target','_blank');
+                  var colRand = Math.floor(Math.random()*colors.length);
+                  document.getElementById('body').style.background = colors[colRand];
+                  document.getElementById('body').style.color = colors[colRand];
+                  document.getElementById('tweet').style.color = colors[colRand];
+                  document.getElementById('getQoute').style.color = colors[colRand];
                }        
     });    
   
@@ -96,9 +102,15 @@ $(document).ready(function(){
                   var twitter = r.quote + " :  By - " + r.author;
                   $('#tweet').attr('href','https://twitter.com/intent/tweet?hashtags=quotes&text='+ twitter);
                   $('#tweet').attr('target','_blank');
+                  var colRand = Math.floor(Math.random()*colors.length);
+                  document.getElementById('body').style.background = colors[colRand];
+                  document.getElementById('body').style.color = colors[colRand];
+                  document.getElementById('tweet').style.color = colors[colRand];
+                  document.getElementById('getQoute').style.color = colors[colRand];
                }        
     });    
   });
 });  
+
 </script>
 </html>
