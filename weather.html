@@ -6,30 +6,64 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
-<body>
-	<div class="row">
-	  <div class="col-md-4 col-md-offset-4 text-center">
-	    Weather
-	  </div>  
-	</div>
-	<div class="row new"></div>
+<style type="text/css">
+	li{
+	  display : inline-block;
+	  padding : 10px;
+	}
+	a{
+	  color : grey;
+	}
+	body{
+	  background-color: #259999;
+	  margin : auto;
+	  color: white;
+	}
 
+	.navbar{
+	  background-color: silver;
+	  color : black;
+	}
+</style>
+<body>
+	<div class="container-fluid main">
+	  <div class=" navbar navabr-inverse navbar-toggleable-sm fixed-top">
+	    <span class = "navbar-brand">WeaTher SearCH</span>
+	    <div class="col-md-6 col-md-offset-3">
+	      <ul class = "navbar-nav">
+	        <li class = "nav-item active"><a class = "nav-link" href="#" target = "_blank">Home</a></li>
+	        <li class = "nav-item"><a class = "nav-link" href="#" target = "_blank">Contact Us</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="col-md-4 col-md-offset-4 text-center">
+	      WEATHER REPORT
+	    </div>  
+	  </div>
+	  <div class="row">
+	    <div class="col-md-4 col-md-offset-4 new"></div>
+	  </div>
+	  
+	</div>
 </body>
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript">
-	 if(navigator.geolocation){
+	if(navigator.geolocation){
 	    navigator.geolocation.getCurrentPosition(function(position){
-	      $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(json){
-	        var html = json.weather[0].description + "<br>";
-	        html += '<img src="' + json.weather[0].icon + '"> <br>';
-	        html += json.main.temp + "<br>";
-	        html += json.main.pressure + "<br>";
-	        html += json.main.humidity + "<br>";  
-	        html += json.wind.speed;
-	        $(".new").html(JSON.stringify(json));
-	      });
+	      $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, weather);
 	    });
-	 }
+	}
+
+	function weather(json){
+	  var html = "Current weather : " + json.weather[0].description;
+	  html += '    <img src="' + json.weather[0].icon + '"> <br>';
+	  html += "Temperature : " + json.main.temp + "<br>";
+	  html += "Pressure : " + json.main.pressure + "<br>";
+	  html += "Humidity : " + json.main.humidity + "<br>";
+	  html += "Wind speed : " + json.wind.speed;
+	  $(".new").html(html);
+	}
 </script>
 </html>
