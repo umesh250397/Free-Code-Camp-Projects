@@ -17,7 +17,6 @@
 	body{
 	  background-color: #259999;
 	  margin : auto;
-	  color: white;
 	}
 
 	.navbar{
@@ -36,34 +35,53 @@
 	      </ul>
 	    </div>
 	  </div>
-	  <div class="row">
-	    <div class="col-md-4 col-md-offset-4 text-center">
-	      WEATHER REPORT
-	    </div>  
-	  </div>
-	  <div class="row">
-	    <div class="col-md-4 col-md-offset-4 new"></div>
-	  </div>
-	  
+	  <div class="row col-md-4 col-md-offset-4 well">
+	    <div class="row">
+	      <div class="text-center">
+	        WEATHER REPORT
+	        &nbsp&nbsp<i class="fa fa-refresh btn" id = "refresh"></i>
+	      </div>  
+	    </div>
+	    <div class="row">
+	      <div class="new"></div>
+	    </div>
+	  </div>  
 	</div>
 </body>
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript">
-	if(navigator.geolocation){
-	    navigator.geolocation.getCurrentPosition(function(position){
-	      $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, weather);
-	    });
-	}
+	$(document).ready(function(){
+	  if(navigator.geolocation){
+	      navigator.geolocation.getCurrentPosition(function(position){
+	        $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(json){
+	          var html = "Current weather : " + json.weather[0].description;
+	          html += '    <img src="' + json.weather[0].icon + '"> <br>';
+	          html += "Temperature : " + json.main.temp + "<br>";
+	          html += "Pressure : " + json.main.pressure + "<br>";
+	          html += "Humidity : " + json.main.humidity + "<br>";
+	          html += "Wind speed : " + json.wind.speed;
+	          $(".new").html(html);
+	        });
+	      });
+	    }
+	  $('#refresh').click(weather);
 
-	function weather(json){
-	  var html = "Current weather : " + json.weather[0].description;
-	  html += '    <img src="' + json.weather[0].icon + '"> <br>';
-	  html += "Temperature : " + json.main.temp + "<br>";
-	  html += "Pressure : " + json.main.pressure + "<br>";
-	  html += "Humidity : " + json.main.humidity + "<br>";
-	  html += "Wind speed : " + json.wind.speed;
-	  $(".new").html(html);
-	}
+	  function weather(){
+	    if(navigator.geolocation){
+	      navigator.geolocation.getCurrentPosition(function(position){
+	        $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(json){
+	          var html = "Current weather : " + json.weather[0].description;
+	          html += '    <img src="' + json.weather[0].icon + '"> <br>';
+	          html += "Temperature : " + json.main.temp + "<br>";
+	          html += "Pressure : " + json.main.pressure + "<br>";
+	          html += "Humidity : " + json.main.humidity + "<br>";
+	          html += "Wind speed : " + json.wind.speed;
+	          $(".new").html(html);
+	        });
+	      });
+	    }   
+	  }
+	});
 </script>
 </html>
