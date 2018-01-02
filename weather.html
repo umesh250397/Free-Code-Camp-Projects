@@ -23,6 +23,10 @@
 	  background-color: silver;
 	  color : black;
 	}
+
+	#pad{
+	  padding : 10px 0px 0px 50px;
+	}
 </style>
 <body>
 	<div class="container-fluid main">
@@ -40,10 +44,15 @@
 	      <div class="text-center">
 	        WEATHER REPORT
 	        &nbsp&nbsp<i class="fa fa-refresh btn" id = "refresh"></i>
-	      </div>  
+	      </div>
 	    </div>
+	    <div class="row" id = "pad"></div>
+	    <hr>
 	    <div class="row">
-	      <div class="new"></div>
+	      <div class="col-md-12 text-right">
+	        <button class = "btn" id = "convertC">convert to °C</button>
+	        <button class = "btn" id = "convertF">convert to °F</button>
+	      </div>
 	    </div>
 	  </div>  
 	</div>
@@ -55,33 +64,53 @@
 	  if(navigator.geolocation){
 	      navigator.geolocation.getCurrentPosition(function(position){
 	        $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(json){
-	          var html = "Current weather : " + json.weather[0].description;
-	          html += '    <img src="' + json.weather[0].icon + '"> <br>';
-	          html += "Temperature : " + json.main.temp + "<br>";
-	          html += "Pressure : " + json.main.pressure + "<br>";
-	          html += "Humidity : " + json.main.humidity + "<br>";
-	          html += "Wind speed : " + json.wind.speed;
-	          $(".new").html(html);
+	          var html = "<div id = 'local'> Current weather : " + json.weather[0].description;
+	          html += '    <img src="' + json.weather[0].icon + '"> <br> </div>';
+	          html += "<div id = 'temp'> Temperature : " + json.main.temp + " °C <br> </div>";
+	          html += "<div id = 'pressure'> Pressure : " + json.main.pressure + " millibars <br> </div>";
+	          html += "<div id = 'humid'> Humidity : " + json.main.humidity + " % <br> </div>";
+	          html += "<div id = 'wind'> Wind speed : " + json.wind.speed + " km/h </div>";
+	          $("#pad").html(html);
 	        });
 	      });
 	    }
+
 	  $('#refresh').click(weather);
 
 	  function weather(){
 	    if(navigator.geolocation){
 	      navigator.geolocation.getCurrentPosition(function(position){
 	        $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(json){
-	          var html = "Current weather : " + json.weather[0].description;
-	          html += '    <img src="' + json.weather[0].icon + '"> <br>';
-	          html += "Temperature : " + json.main.temp + "<br>";
-	          html += "Pressure : " + json.main.pressure + "<br>";
-	          html += "Humidity : " + json.main.humidity + "<br>";
-	          html += "Wind speed : " + json.wind.speed;
-	          $(".new").html(html);
+	          var html = "<div id = 'local'> Current weather : " + json.weather[0].description;
+	          html += '    <img src="' + json.weather[0].icon + '"> <br> </div>';
+	          html += "<div id = 'temp'> Temperature : " + json.main.temp + " °C <br> </div>";
+	          html += "<div id = 'pressure'> Pressure : " + json.main.pressure + " millibars <br> </div>";
+	          html += "<div id = 'humid'> Humidity : " + json.main.humidity + " % <br> </div>";
+	          html += "<div id = 'wind'> Wind speed : " + json.wind.speed + " km/h </div>";
+	          $("#pad").html(html);
 	        });
 	      });
-	    }   
+	    }
 	  }
-	});
+	  $('#convertC').click(function(){
+	    if(navigator.geolocation){
+	      navigator.geolocation.getCurrentPosition(function(position){
+	        $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(json){
+	          $("#temp").html("Temperature : " + json.main.temp + " °C <br>");
+	        });
+	      });
+	    }
+	  });
+	  $('#convertF').click(function(){
+	    if(navigator.geolocation){
+	      navigator.geolocation.getCurrentPosition(function(position){
+	        $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(json){
+	          var html = (json.main.temp * 9/5)+32;
+	          $("#temp").html("Temperature : " + html + " °F <br>");
+	        });
+	      });
+	    }
+	  });
+	})
 </script>
 </html>
