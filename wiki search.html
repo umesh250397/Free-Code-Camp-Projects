@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>wiki search</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+<style type="text/css">
+	.nav-item{
+	  display : inline-block;
+	  padding : 10px;
+	}
+	a{
+	  color : grey;
+	}
+	.navbar{
+	  background-color : black;
+	}
+	body{
+	  background-color : #259999;
+	  color : #259999;
+	;
+	}
+	.btn{
+	  background-color : black;
+	}
+	.new{
+	  color: white;
+	}
+
+</style>
+<body>
+	<div class="container-fluid">
+	  <div class=" navbar navabr-inverse navbar-toggleable-sm fixed-top">
+	    <span class = "navbar-brand">Wikipedia Search</span>
+	    <div class="col-md-6 col-md-offset-3">
+	      <ul class = "navbar-nav">
+	        <li class = "nav-item active"><a class = "nav-link" href="#" target = "_blank">Home</a></li>
+	        <li class = "nav-item"><a class = "nav-link" href="#" target = "_blank">Contact Us</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	  <hr>
+	  <div class="row">
+	    <div class="col-md-4 col-md-offset-4 well">
+	      <input id="in" type="text" placeholder = "Search...">
+	      <i class = "fa fa-search btn" id = "search"></i>
+	      <a id = "random"><button class = "btn" >Random Wiki page</button></a>
+	    </div>
+	  </div>
+	  <div class="row" id="result">
+	    <div class="col-md-4 col-md-offset-4">SEARCH RESULTS ARE:</div>
+	  </div>
+	  <div class="row new"></div>
+	</div>
+</body>
+<script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+	  var tag = document.getElementById("in");
+	  $("#search").click(function() {
+	    $.getJSON(
+	      "https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&continue=&srsearch=" + tag.value + "&srwhat=text" , function(json) {
+	        var html = '<div class="row">  <div class="col-md-4 col-md-offset-4 well "><ul>';
+	        var j = json.query.search;
+	        for(var i = 0; i < j.length ; i++){
+	          html += "<li><a href = 'https://en.wikipedia.org/?curid=" + j[i].pageid + "' target = '_blank'>" + j[i].title + "</a></li>";
+	        }
+	        html += "</ul></div></div>";
+	        $('.new').html(html);
+	        $('#result').css("color","white");
+	      }
+	    );
+	  });
+	  $("#random").click(function(){
+	    $("#random").attr('href','https://en.wikipedia.org/wiki/Special:Random');
+	    $("#random").attr('target','_blank');
+	  });
+	});
+
+</script>
+</html>
