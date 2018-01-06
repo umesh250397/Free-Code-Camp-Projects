@@ -12,10 +12,24 @@
 	  padding : 10px;
 	}
 	a{
-	  color : grey;
+	  color : white;
 	}
 	.navbar{
 	  background-color : black;
+	}
+	body{
+	  background-color :silver; 
+	  color : white;
+	}
+	img{
+	  width : 70px;
+	  height : 70px;
+	}
+	.color{
+	  background-color : #559;
+	}
+	.well{
+	  background-color: #9b59b6;
 	}
 </style>
 <body>
@@ -29,15 +43,73 @@
 	      </ul>
 	    </div>
 	  </div>
-	  <div class="row">
-	    <div class="col-md-3 col-md-offset-4 well" id = "show"></div>
+	  <div class="well col-md-4 col-md-offset-4">
+	    <div class="row">
+	        <div class="col-md-4 btn s color" id = "all">All</div>
+	        <div class="col-md-4 btn s" id = "online">Online</div>
+	        <div class="col-md-4 btn s" id = "offline">Offline</div>      
+	    </div>
+	    <hr>
+	    <div class="row" id = "show"></div>
 	  </div>
 	</div>
 </body>
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript">
+	var channels = ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas","shroud","nl_Kripp","CDNThe3rd","C9Sneaky","pokimane","MOONMOON_OW","pokelawls","Vinesauce","GarenaTW"];
+
+	function getChannelInfo() {
+	  channels.forEach(function(channel) {
+	    function makeURL(type, name) {
+	      return 'https://api.twitch.tv/kraken/' + type + '/' + name + '?client_id=3w71r9r9ptttbseqy0szzua77tvsnk';
+	    };
+	    $.getJSON(makeURL("streams", channel), function(data) {
+	      var game,
+	          status;
+	      if (data.stream === null) {
+	        game = "Offline";
+	        status = "offline";
+	      } else if (data.stream === undefined) {
+	        game = "Account Closed";
+	        status = "offline";
+	      } else {
+	        game = data.stream.game;
+	        status = "online";
+	      };
+	      $.getJSON(makeURL("channels", channel), function(data) {
+	        var logo = data.logo != null ? data.logo : "http://via.placeholder.com/70X70",
+	          name = data.display_name != null ? data.display_name : channel,
+	          description = status === "online" ? ': ' + data.status : "";
+	          html = '<div class="row ' +
+	          status + '"><div class="col-md-3"><img src="' +
+	          logo + '" ></div><div class="col-md-9"><div class="row"><a href="' +
+	          data.url + '" target="_blank">' +
+	          name + '</a></div><div class="row">'+
+	          game + '<span class="hidden-xs">' +
+	          description + '</span><br></div></div></div>';
+	        status === "online" ? $("#show").prepend(html) : $("#show").append(html);
+	      });
+	    });
+	  });
+	};
+
 	$(document).ready(function() {
+	  getChannelInfo();
+	  $(".s").click(function() {
+	    $(".s").removeClass("color");
+	    $(this).addClass("color");
+	    var status = $(this).attr('id');
+	    if (status === "all") {
+	      $(".online, .offline").removeClass("hidden");
+	    } else if (status === "online") {
+	      $(".online").removeClass("hidden");
+	      $(".offline").addClass("hidden");
+	    } else {
+	      $(".offline").removeClass("hidden");
+	      $(".online").addClass("hidden");
+	    }
+	  })
 	});
 </script>
 </html>
